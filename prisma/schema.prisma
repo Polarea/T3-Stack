@@ -10,11 +10,38 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
+
+model Instructor {
+    id             Int             @id @default(autoincrement())
+    name           String
+    qualifications Qualification[] // One-to-many relationship with Qualification
+
+    @@index([name])
+}
+
+model Qualification {
+    id          Int          @id @default(autoincrement())
+    name        String
+    instructors Instructor[] // Many-to-many relationship with Instructor
+
+    @@index([name])
+}
+
+model School {
+    id        Int     @id @default(autoincrement())
     name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    courses   Course[] // One-to-many relationship with Course
+
+    @@index([name])
+}
+
+model Course {
+    id         Int      @id @default(autoincrement())
+    name       String
+    startDate  DateTime
+    endDate    DateTime
+    schoolId   Int
+    school     School    @relation(fields: [schoolId], references: [id]) // Many-to-one relationship with School
 
     @@index([name])
 }

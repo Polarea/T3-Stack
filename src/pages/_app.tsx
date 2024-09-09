@@ -13,7 +13,7 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ClerkProvider>
+    <ClerkProvider {...pageProps}>
       <html lang="en">
         <body>
           <SignedOut>
@@ -22,9 +22,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <SignedIn>
             <UserButton />
           </SignedIn>
-          <div className={GeistSans.className}>
-      <Component {...pageProps} />
-    </div>
+          <Component {...pageProps} />
         </body>
       </html>
     </ClerkProvider>    
