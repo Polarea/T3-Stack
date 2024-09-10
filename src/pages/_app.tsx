@@ -1,4 +1,3 @@
-import { GeistSans } from "geist/font/sans";
 import { type AppType } from "next/app";
 import {
   ClerkProvider,
@@ -13,20 +12,14 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ClerkProvider {...pageProps}>
       <html lang="en">
         <body>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <Component {...pageProps} />
+          <ClerkProvider {...pageProps}>
+            <Component {...pageProps} />
+          </ClerkProvider>
         </body>
-      </html>
-    </ClerkProvider>    
-  );
-};
+      </html>    
+    );
+  };
 
 export default api.withTRPC(MyApp);
