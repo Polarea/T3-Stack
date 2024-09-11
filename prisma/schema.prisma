@@ -14,7 +14,7 @@ datasource db {
 model Instructor {
     id             Int             @id @default(autoincrement())
     name           String
-    qualifications Qualification[] // One-to-many relationship with Qualification
+    qualifications Qualification[] // Many-to-many relationship with Qualification
 
     @@index([name])
 }
@@ -30,7 +30,7 @@ model Qualification {
 model School {
     id        Int     @id @default(autoincrement())
     name      String
-    courses   Course[] // One-to-many relationship with Course
+    courses   Course[] // Many-to-many relationship with Course
 
     @@index([name])
 }
@@ -38,10 +38,9 @@ model School {
 model Course {
     id         Int      @id @default(autoincrement())
     name       String
+    schools    School[] // Many-to-many relationship with School
     startDate  DateTime
-    endDate    DateTime
-    schoolId   Int
-    school     School    @relation(fields: [schoolId], references: [id]) // Many-to-one relationship with School
+    endDate    DateTime    
 
     @@index([name])
 }

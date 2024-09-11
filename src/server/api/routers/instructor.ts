@@ -4,17 +4,19 @@ import { createTRPCRouter, publicProcedure} from "~/server/api/trpc";
 export const instructorRouter = createTRPCRouter({
   getAll: publicProcedure
     .query(async ({ctx}) => {
-      return (await ctx.db.instructor.findMany({select: {id: true, name: true, qualifications:true}}));
+      return (await ctx.db.instructor.findMany({include: {qualifications:true}}));
     }),
+
   add: publicProcedure
-  .input(z.object({ name: z.string() }))
+  .input( z.object({ name: z.string() }))
   .mutation(async ({ctx, input}) => {
     return ctx.db.instructor.create({
       data : {
         name: input.name,
       }
     });
-  })
+  }),
+
   });
 
 /* export type todosType= { 
