@@ -1,8 +1,23 @@
 import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure} from "~/server/api/trpc";
 
-export type todosType= { 
+export const instructorRouter = createTRPCRouter({
+  getAll: publicProcedure
+    .query(async ({ctx}) => {
+      return (await ctx.db.instructor.findMany({select: {id: true, name: true, qualifications:true}}));
+    }),
+  add: publicProcedure
+  .input(z.object({ name: z.string() }))
+  .mutation(async ({ctx, input}) => {
+    return ctx.db.instructor.create({
+      data : {
+        name: input.name,
+      }
+    });
+  })
+  });
+
+/* export type todosType= { 
   id: number; 
   text: string; 
   completed: boolean 
@@ -30,10 +45,10 @@ export const todosRouter = createTRPCRouter({
       }
       throw new Error('Todo not found');
     }),
-});
+}); 
 
 
-/* export const postRouter = createTRPCRouter({
+export const postRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -59,4 +74,5 @@ export const todosRouter = createTRPCRouter({
 
     return post ?? null;
   }),
-}); */
+}); 
+*/
